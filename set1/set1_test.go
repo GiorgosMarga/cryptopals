@@ -175,7 +175,7 @@ func TestChallenge7(t *testing.T) {
 		t.Error(err)
 	}
 	key := "YELLOW SUBMARINE"
-	decrypted := DecryptAES128(hEnc, []byte(key))
+	decrypted := DecryptECB(hEnc, []byte(key))
 	fmt.Println(string(decrypted))
 }
 func TestChallenge8(t *testing.T) {
@@ -200,7 +200,7 @@ func TestChallenge8(t *testing.T) {
 		d, _ := HexDecode([]byte(line))
 		blocks := makeECBBlocks(d)
 		for _, block := range blocks {
-			w := DecryptAES128(block, []byte(key))
+			w := DecryptECB(block, []byte(key))
 			if _, ok := dict[string(w)]; !ok {
 				commonWords++
 				dict[string(w)] = struct{}{}

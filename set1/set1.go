@@ -106,7 +106,7 @@ func BreakRepeatingXOR(b []byte) ([]byte, error) {
 	return nil, nil
 }
 
-func DecryptAES128(b []byte, key []byte) []byte {
+func DecryptECB(b []byte, key []byte) []byte {
 	cipher, _ := aes.NewCipher(key)
 	decrypted := make([]byte, len(b))
 	size := 16 // block size
@@ -116,6 +116,17 @@ func DecryptAES128(b []byte, key []byte) []byte {
 	}
 
 	return decrypted
+}
+func EncryptECB(b []byte, key []byte) []byte {
+	cipher, _ := aes.NewCipher(key)
+	encrypted := make([]byte, len(b))
+	size := 16 // block size
+
+	for bs, be := 0, size; bs < len(b); bs, be = bs+size, be+size {
+		cipher.Encrypt(encrypted[bs:be], b[bs:be])
+	}
+
+	return encrypted
 }
 func makeECBBlocks(b []byte) [][]byte {
 	n := len(b)
